@@ -1,14 +1,15 @@
-insightface==0.7.3
-numpy>=1.24.0
-torch
-torchvision
-retina-face==0.0.17
+# Core ML libraries
 tf-keras
-gdown>=3.10.1
-Pillow>=5.2.0
-opencv-python>=3.4.4
-tensorflow>=1.9.0
+torch
+numpy>=1.24.0
 onnxruntime>=1.15.1
+opencv-python>=3.4.4
+
+# Face recognition
+insightface==0.7.3
+retina-face==0.0.17
+
+# API
 fastapi
 pydantic
 uvicorn[standard]

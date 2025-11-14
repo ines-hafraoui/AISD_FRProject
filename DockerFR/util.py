@@ -154,10 +154,6 @@ def calculate_face_similarity(image_a: Any, image_b: Any) -> float:
         raise ValueError("Could not detect keypoints for face alignment")
     face_b = warp_face(imgb, kpsb)  
 
-    print(f"Face A shape: {face_a.shape}, Face B shape: {face_b.shape}")
-    cv2.imwrite("debug_face_a.jpg", face_a)
-    cv2.imwrite("debug_face_b.jpg", face_b)
-
     emb_a = compute_face_embedding(face_a)
     emb_b = compute_face_embedding(face_b)
 
