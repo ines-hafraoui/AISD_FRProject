@@ -67,13 +67,13 @@ def convert_model_to_onnx(weights_path: Path, onnx_path: Path, opset: int) -> No
 
     onnx_path.parent.mkdir(parents=True, exist_ok=True)
     dummy_input = torch.randn(1, 3, 112, 112)
-    dynamic_axes = {"input.1": {0: "batch"}, "683": {0: "batch"}}
+    dynamic_axes = {"input": {0: "batch"}, "embedding": {0: "batch"}}
 
     torch.onnx.export(
         model,
         dummy_input,
         onnx_path,
-        input_names=["input.1"],
+        input_names=["input"],
         output_names=["683"],
         dynamic_axes=dynamic_axes,
         opset_version=opset,
