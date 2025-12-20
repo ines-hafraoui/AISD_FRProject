@@ -11,9 +11,18 @@ echo "[start] Using model repository: ${TRITON_REPO}"
 
 START_TRITON=true
 if [ ! -f "${TRITON_REPO}/fr_model/1/model.onnx" ]; then
-  echo "[start] WARNING: No FR model found at ${TRITON_REPO}/fr_model/1/model.onnx. Skipping Triton startup."
-  START_TRITON=false
-  export SKIP_TRITON=1
+  echo "[start] Models missing. Downloading Buffalo_L pack..."
+  wget -q https://github.com/deepinsight/insightface/releases/download/v0.7/buffalo_l.zip
+  unzip -q buffalo_l.zip -d temp_pack
+  
+  mkdir -p "${TRITON_REPO}/face_detector/1" "${TRITON_REPO}/fr_model/1"
+  
+  # det_10g = Detector, w600k_r50 = Recognition
+  cp temp_pack/det_10g.onnx "${TRITON_REPO}/face_detector/1/model.onnx"
+  cp temp_pack/w600k_r50.onnx "${TRITON_REPO}/fr_model/1/model.onnx"
+  
+  rm -rf buffalo_l.zip temp_pack
+  echo "[start] Models prepared successfully."
 fi
 
 if [ "${START_TRITON}" = true ]; then

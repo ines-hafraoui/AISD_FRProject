@@ -15,6 +15,10 @@ MODEL_VERSION = "1"
 MODEL_INPUT_NAME = "input.1"
 MODEL_OUTPUT_NAME = "683"
 MODEL_IMAGE_SIZE = (112, 112)
+DET_MODEL_NAME = "face_detector"
+DET_MODEL_INPUT_NAME = "input.1"  
+DET_MODEL_OUTPUT_NAMES = ["448", "451", "454"] 
+DET_MODEL_IMAGE_SIZE = (640, 640)
 
 
 def prepare_model_repository(model_repo: Path) -> None:
