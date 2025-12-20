@@ -74,7 +74,7 @@ def convert_model_to_onnx(weights_path: Path, onnx_path: Path, opset: int) -> No
         dummy_input,
         onnx_path,
         input_names=["input"],
-        output_names=["embedding"],
+        output_names=["683"],
         dynamic_axes=dynamic_axes,
         opset_version=opset,
         do_constant_folding=True,
