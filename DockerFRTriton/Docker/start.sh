@@ -15,7 +15,6 @@ if [ ! -f "${TRITON_REPO}/fr_model/1/model.onnx" ]; then
   START_TRITON=false
   export SKIP_TRITON=1
 fi
-
 if [ "${START_TRITON}" = true ]; then
   tritonserver --model-repository="${TRITON_REPO}" \
     --http-port="${TRITON_HTTP_PORT}" \
@@ -23,11 +22,14 @@ if [ "${START_TRITON}" = true ]; then
     --metrics-port="${TRITON_METRICS_PORT}" &
   TRITON_PID=$!
 
-  cleanup() {
-    echo "[start] Stopping Triton (pid=${TRITON_PID})"
-    kill "${TRITON_PID}" 2>/dev/null || true
-  }
-  trap cleanup EXIT
+  # Wait for Triton to be ready before starting FastAPI
+  echo "[start] Waiting for Triton to start on port ${TRITON_HTTP_PORT}..."
+  until curl -s "http://localhost:${TRITON_HTTP_PORT}/v2/health/ready" > /dev/null; do
+    sleep 2
+  done
+  echo "[start] Triton is ready!"
+
+  trap "kill ${TRITON_PID}" EXIT
 fi
 
 echo "[start] Launching FastAPI on port ${FASTAPI_PORT}"
